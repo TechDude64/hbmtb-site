@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import YouTubeVideos from './components/YouTubeVideos';
+import { CartProvider, useCart } from './components/CartContext';
+import CartPage from './components/CartPage';
+import ProductPage from './components/ProductPage';
 
 import { merchItems } from './components/merchData';
 
@@ -27,12 +30,19 @@ const FilmIcon = () => (
   </svg>
 );
 
-const ShoppingBagIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-    <line x1="3" y1="6" x2="21" y2="6"></line>
-    <path d="M16 10a4 4 0 0 1-8 0"></path>
-  </svg>
+const ShoppingBagIcon = ({ cartCount }) => (
+  <div className="relative">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+    </svg>
+    {cartCount > 0 && (
+      <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-hb-blue text-xs font-bold text-white">
+        {cartCount}
+      </span>
+    )}
+  </div>
 );
 
 const InfoIcon = () => (
@@ -51,6 +61,7 @@ const YoutubeIcon = () => (
 
 function Sidebar() {
   const location = useLocation();
+  const { cartItems } = useCart();
   const navItems = [
     { path: "/", label: "Home", icon: <HomeIcon /> },
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
@@ -67,8 +78,8 @@ function Sidebar() {
   ];
 
   return (
-    <div className="fixed top-0 left-0 h-[100dvh] w-24 bg-hb-darker/95 backdrop-blur-sm flex flex-col items-center py-6 z-50 border-r border-hb-gray/50">
-      <div className="flex flex-col items-center h-full w-full">
+    <div className="fixed top-0 left-0 h-screen w-24 bg-hb-darker/95 backdrop-blur-sm flex flex-col items-center py-6 z-50 border-r border-hb-gray/50">
+      <div className="flex flex-col items-center justify-between h-full w-full">
         <div className="flex flex-col items-center w-full">
           {/* Logo */}
           <div className="mb-8 flex justify-center w-full">
@@ -98,23 +109,40 @@ function Sidebar() {
                 <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
               </Link>
             ))}
+             <Link
+              to="/cart"
+              className={`flex flex-col items-center group transition-all duration-200 w-full ${
+                location.pathname === '/cart'
+                  ? 'text-hb-blue hover:text-hb-blue-light'
+                  : 'text-hb-light/60 hover:text-hb-light hover:scale-105'
+                }`}
+            >
+              <div className={`p-1.5 rounded-lg transition-all duration-200 relative ${
+                location.pathname === '/cart'
+                  ? 'bg-hb-gray-light/50'
+                  : 'group-hover:bg-hb-gray/30'
+                }`}>
+                <ShoppingBagIcon cartCount={cartItems.length} />
+              </div>
+              <span className="text-[10px] mt-1 text-center leading-tight">Cart</span>
+            </Link>
           </nav>
         </div>
-      </div>
-      {/* Social Links */}
-      <div className="mt-auto w-full flex flex-col items-center space-y-4 pt-4 border-t border-hb-gray/30 px-2">
-        {socialLinks.map((social) => (
-          <a
-            key={social.url}
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-hb-light/50 hover:text-hb-blue hover:scale-110 transition-all duration-200"
-            aria-label={social.label}
-          >
-            {social.icon && React.cloneElement(social.icon, { className: 'w-5 h-5' })}
-          </a>
-        ))}
+        {/* Social Links */}
+        <div className="w-full flex flex-col items-center space-y-4 pt-4 border-t border-hb-gray/30 px-2 pb-4">
+          {socialLinks.map((social) => (
+            <a
+              key={social.url}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-hb-light/50 hover:text-hb-blue hover:scale-110 transition-all duration-200"
+              aria-label={social.label}
+            >
+              {social.icon && React.cloneElement(social.icon, { className: 'w-5 h-5' })}
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -228,51 +256,19 @@ function Merch() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {merchItems.map((product) => (
-            <div key={product.id} className="bg-hb-gray/30 rounded-xl overflow-hidden border border-hb-gray/30 hover:border-hb-blue/50 transition-colors">
-              <div className="aspect-square bg-hb-gray">
+            <Link to={`/merch/${product.id}`} key={product.id} className="bg-hb-gray/30 rounded-xl overflow-hidden border border-hb-gray/30 hover:border-hb-blue/50 transition-all duration-300 flex flex-col group">
+              <div className="aspect-square bg-hb-gray overflow-hidden">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-xl font-semibold text-hb-light mb-2">{product.name}</h3>
-                <p className="text-hb-blue text-lg font-medium mb-4">{product.price}</p>
-
-                <div className="mb-4">
-                  <h4 className="text-sm font-medium text-hb-light/70 mb-2">Colors</h4>
-                  <div className="flex space-x-2">
-                    {product.colors.map((color, idx) => (
-                      <div
-                        key={idx}
-                        className="w-6 h-6 rounded-full border border-hb-gray/50"
-                        style={{ backgroundColor: color }}
-                        title={color}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <h4 className="text-sm font-medium text-hb-light/70 mb-2">Sizes</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {product.sizes.map((size, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1 text-xs rounded-full bg-hb-gray/50 text-hb-light"
-                      >
-                        {size}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <button className="w-full py-2 bg-hb-blue hover:bg-hb-blue-dark text-white rounded-lg transition-colors">
-                  Add to Cart
-                </button>
+                <p className="text-hb-blue text-lg font-medium mt-auto">${product.price.toFixed(2)}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </motion.div>
@@ -444,8 +440,10 @@ function AppContent() {
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<Home />} />
               <Route path="/merch" element={<Merch />} />
+              <Route path="/merch/:productId" element={<ProductPage />} />
               <Route path="/videos" element={<Videos />} />
               <Route path="/about" element={<About />} />
+              <Route path="/cart" element={<CartPage />} />
             </Routes>
           </AnimatePresence>
 
@@ -491,7 +489,9 @@ function AppContent() {
 export default function App() {
   return (
     <Router>
-      <AppContent />
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
     </Router>
   );
 }
