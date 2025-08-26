@@ -1,0 +1,30 @@
+{
+  "short_name": "HBMTB",
+  "name": "HBMTB - Mountain Biking Adventures",
+  "description": "Official website for HBMTB - Your source for mountain biking videos, trails, and community",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "32x32 24x24 16x16",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1A1A1A",
+  "background_color": "#1A1A1A",
+  "orientation": "portrait-primary",
+  "categories": ["sports", "outdoors", "entertainment"]
+}

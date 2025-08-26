@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .animate-scroll {
+    animation: scroll 40s linear infinite;
+  }
+  .pause {
+    animation-play-state: paused;
+  }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@layer base {
+  body {
+    @apply bg-hb-dark text-hb-light font-sans overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-wide text-hb-light;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  p {
+    @apply text-hb-light/90 leading-relaxed;
+  }
+  
+  a {
+    @apply transition-colors duration-200;
+  }
+  
+  .btn {
+    @apply bg-hb-blue hover:bg-hb-blue/90 text-white font-bold py-2 px-6 rounded-full transition-all duration-200 transform hover:scale-105;
+  }
+  
+  .container {
+    @apply px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-full;
+  }
+  
+  /* Responsive media elements */
+  img, video, iframe, canvas, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Ensure all direct children of body are full width */
+  body > * {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .section {
+    @apply py-12 md:py-20;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
