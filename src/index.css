@@ -6,7 +6,8 @@
 
 @layer utilities {
   .animate-scroll {
-    animation: scroll 40s linear infinite;
+    animation: scroll 60s linear infinite;
+    transition: animation-play-state 0.3s ease-in-out;
   }
   .pause {
     animation-play-state: paused;
