@@ -289,11 +289,13 @@ function Videos() {
   return (
     <div className="w-full py-8">
       <div className="w-full max-w-[1600px] mx-auto px-4">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-4 text-hb-light">Videos</h1>
-          <p className="text-hb-light/70">Watch our latest mountain biking adventures, tutorials, and more.</p>
+        <div className="text-center mb-12 p-8 bg-gradient-to-r from-hb-blue/10 to-hb-darker/50 rounded-2xl border border-hb-gray/30">
+          <h1 className="text-4xl font-bold mb-2 text-hb-light">Videos</h1>
+          <p className="text-hb-light/70 max-w-2xl mx-auto">Watch our latest mountain biking adventures, tutorials, and more.</p>
         </div>
-        <YouTubeVideos />
+        <div className="p-4 sm:p-8 bg-hb-darker/30 rounded-2xl">
+          <YouTubeVideos />
+        </div>
       </div>
     </div>
   );
@@ -315,17 +317,21 @@ function Merch() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {merchItems.map((product) => (
-            <Link to={`/merch/${product.id}`} key={product.id} className="bg-hb-gray/30 rounded-xl overflow-hidden border border-hb-gray/30 hover:border-hb-blue/50 transition-all duration-300 flex flex-col group">
+            <Link to={`/merch/${product.id}`} key={product.id} className="bg-hb-gray/30 rounded-xl overflow-hidden border border-hb-gray/30 hover:border-hb-blue/50 transition-all duration-300 flex flex-col group relative">
               <div className="aspect-square bg-hb-gray overflow-hidden">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-xl font-semibold text-hb-light mb-2">{product.name}</h3>
                 <p className="text-hb-blue text-lg font-medium mt-auto">${product.price.toFixed(2)}</p>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="bg-hb-blue text-white px-4 py-2 rounded-lg">View Details</div>
               </div>
             </Link>
           ))}
@@ -566,10 +572,10 @@ function About() {
 function AppContent() {
   const location = useLocation();
   return (
-    <div className="min-h-screen flex w-full bg-hb-dark text-hb-light">
+    <div className="min-h-screen flex w-full bg-hb-dark text-hb-light bg-[url('/public/bg-grid.svg')] bg-repeat">
       <Sidebar />
       <MobileHeader />
-      <main className="flex-1 h-[100dvh] overflow-y-auto overflow-x-hidden bg-hb-dark md:pl-24 pt-16 md:pt-0 pb-20 md:pb-0">
+      <main className="flex-1 h-[100dvh] overflow-y-auto overflow-x-hidden bg-hb-dark/80 backdrop-blur-sm md:pl-24 pt-16 md:pt-0 pb-20 md:pb-0">
         <div className="w-full max-w-[1600px] mx-auto px-4 py-4">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>

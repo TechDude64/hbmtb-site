@@ -45,8 +45,8 @@ const ProductPage = () => {
             <div className="grid md:grid-cols-2 gap-12">
                 {/* Product Image */}
                 <motion.div
-                    className="bg-hb-gray/30 rounded-xl p-8 border border-hb-gray/50"
-                    whileHover={{ scale: 1.02 }}
+                    className="bg-hb-gray/30 rounded-xl p-8 border border-hb-gray/50 shadow-lg hover:shadow-hb-blue/20 transition-shadow duration-300"
+                    whileHover={{ scale: 1.02, y: -5 }}
                 >
                     <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
                 </motion.div>
