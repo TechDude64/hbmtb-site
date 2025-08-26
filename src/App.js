@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
@@ -125,13 +125,13 @@ function Sidebar() {
             <Link
               to="/cart"
               className={`flex flex-col items-center group transition-all duration-200 w-full ${location.pathname === '/cart'
-                  ? 'text-hb-blue hover:text-hb-blue-light'
-                  : 'text-hb-light/60 hover:text-hb-light hover:scale-105'
+                ? 'text-hb-blue hover:text-hb-blue-light'
+                : 'text-hb-light/60 hover:text-hb-light hover:scale-105'
                 }`}
             >
               <div className={`p-1.5 rounded-lg transition-all duration-200 relative ${location.pathname === '/cart'
-                  ? 'bg-hb-gray-light/50'
-                  : 'group-hover:bg-hb-gray/30'
+                ? 'bg-hb-gray-light/50'
+                : 'group-hover:bg-hb-gray/30'
                 }`}>
                 <CartIcon />
               </div>
@@ -187,16 +187,14 @@ function BottomNavBar() {
         <Link
           key={item.path}
           to={item.path}
-          className={`flex flex-col items-center group transition-all duration-200 w-full h-full justify-center ${
-            location.pathname === item.path
-              ? 'text-hb-blue'
-              : 'text-hb-light/60 hover:text-hb-light'
+          className={`flex flex-col items-center group transition-all duration-200 w-full h-full justify-center ${location.pathname === item.path
+            ? 'text-hb-blue'
+            : 'text-hb-light/60 hover:text-hb-light'
             }`}
         >
-          <div className={`p-1.5 rounded-lg transition-all duration-200 ${
-            location.pathname === item.path
-              ? 'bg-hb-gray-light/20'
-              : ''
+          <div className={`p-1.5 rounded-lg transition-all duration-200 ${location.pathname === item.path
+            ? 'bg-hb-gray-light/20'
+            : ''
             }`}>
             {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
           </div>
@@ -291,8 +289,10 @@ function Videos() {
   return (
     <div className="w-full py-8">
       <div className="w-full max-w-[1600px] mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-4 text-hb-light">Videos</h1>
-        <p className="text-hb-light/70 mb-8">Watch our latest mountain biking adventures, tutorials, and more.</p>
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-4 text-hb-light">Videos</h1>
+          <p className="text-hb-light/70">Watch our latest mountain biking adventures, tutorials, and more.</p>
+        </div>
         <YouTubeVideos />
       </div>
     </div>
@@ -308,7 +308,7 @@ function Merch() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="mb-8">
+        <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold mb-2 text-hb-light">HBMTB Merch</h1>
           <p className="text-hb-light/70">Gear up with official HBMTB merchandise</p>
         </div>
@@ -336,12 +336,87 @@ function Merch() {
 }
 
 function About() {
-  const stats = [
-    { value: "500K+", label: "Subscribers" },
-    { value: "50M+", label: "Views" },
+  const [stats, setStats] = useState([
+    { value: "...", label: "Subscribers" },
+    { value: "...", label: "Views" },
     { value: "1000+", label: "Trails Ridden" },
     { value: "7", label: "Years Riding" }
-  ];
+  ]);
+
+  useEffect(() => {
+    const fetchYoutubeStats = async () => {
+      const apiKey = process.env.REACT_APP_YOUTUBE_API_KEY;
+      const channelId = 'UCzsMVEbYqyqn4YtgzbCZASA'; // Correct HBMTB Channel ID
+
+      console.log("Using API Key:", apiKey ? "Loaded" : "Missing or not loaded");
+
+      if (!apiKey || apiKey === 'your_api_key_here') {
+        console.error("YouTube API key is missing or is still the placeholder value. Please check your .env file and restart the server.");
+        setStats([
+          { value: "700+", label: "Subscribers" },
+          { value: "444K+", label: "Views" },
+          { value: "1000+", label: "Trails Ridden" },
+          { value: "7", label: "Years Riding" }
+        ]);
+        return;
+      }
+
+      try {
+        console.log("Fetching fresh YouTube stats...");
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${channelId}&key=${apiKey}`);
+        const data = await response.json();
+        console.log("YouTube API Response:", data);
+
+        if (data.items && data.items.length > 0) {
+          const statistics = data.items[0].statistics;
+          const subscriberCount = parseInt(statistics.subscriberCount);
+          const viewCount = parseInt(statistics.viewCount);
+
+          const formatNumber = (num) => {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M+';
+            if (num >= 1000) return (num / 1000).toFixed(0) + 'K+';
+            return num.toString();
+          };
+
+          const newStats = [
+            { value: formatNumber(subscriberCount), label: "Subscribers" },
+            { value: formatNumber(viewCount), label: "Views" },
+            { value: "1000+", label: "Trails Ridden" },
+            { value: "7", label: "Years Riding" }
+          ];
+
+          console.log("Successfully updated stats:", newStats);
+          setStats(newStats);
+          localStorage.setItem('youtubeStats', JSON.stringify(newStats));
+          localStorage.setItem('lastFetchTime', Date.now());
+        } else {
+          console.error("Failed to fetch stats, API response did not contain items.", data);
+        }
+      } catch (error) {
+        console.error("Error fetching YouTube stats:", error);
+        setStats([
+          { value: "700+", label: "Subscribers" },
+          { value: "444K+", label: "Views" },
+          { value: "1000+", label: "Trails Ridden" },
+          { value: "7", label: "Years Riding" }
+        ]);
+      }
+    };
+
+    const loadStats = () => {
+      const lastFetchTime = localStorage.getItem('lastFetchTime');
+      const cachedStats = localStorage.getItem('youtubeStats');
+
+      if (cachedStats && lastFetchTime && (Date.now() - lastFetchTime < 3600000)) { // 1 hour
+        console.log("Loading stats from cache.");
+        setStats(JSON.parse(cachedStats));
+      } else {
+        fetchYoutubeStats();
+      }
+    };
+
+    loadStats();
+  }, []);
 
   const features = [
     {
@@ -395,7 +470,7 @@ function About() {
           <h1 className="text-5xl font-bold bg-gradient-to-r from-hb-blue to-hb-blue-light bg-clip-text text-transparent mb-4">
             Ride With Purpose
           </h1>
-          <p className="text-xl text-hb-light/80 max-w-3xl">
+          <p className="text-xl text-hb-light/80 max-w-3xl mx-auto">
             Sharing the stoke of mountain biking through epic adventures, helpful tutorials, and honest gear reviews.
           </p>
         </div>
