@@ -30,20 +30,24 @@ const FilmIcon = () => (
   </svg>
 );
 
-const ShoppingBagIcon = ({ cartCount }) => (
-  <div className="relative">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <path d="M16 10a4 4 0 0 1-8 0"></path>
-    </svg>
-    {cartCount > 0 && (
-      <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-hb-blue text-xs font-bold text-white">
-        {cartCount}
-      </span>
-    )}
-  </div>
-);
+const CartIcon = () => {
+  const { cartItems } = useCart();
+  const cartCount = cartItems.length;
+  return (
+    <div className="relative">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+      {cartCount > 0 && (
+        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-hb-blue text-xs font-bold text-white">
+          {cartCount}
+        </span>
+      )}
+    </div>
+  );
+};
 
 const InfoIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -59,13 +63,20 @@ const YoutubeIcon = () => (
   </svg>
 );
 
+const ShoppingBagIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <path d="M16 10a4 4 0 0 1-8 0"></path>
+  </svg>
+);
+
 function Sidebar() {
   const location = useLocation();
-  const { cartItems } = useCart();
   const navItems = [
     { path: "/", label: "Home", icon: <HomeIcon /> },
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
-    { path: "/merch", label: "Merch", icon: <ShoppingBagIcon /> },
+    { path: "/merch", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
     { path: "/about", label: "About", icon: <InfoIcon /> },
   ];
 
@@ -78,12 +89,14 @@ function Sidebar() {
   ];
 
   return (
-    <div className="fixed top-0 left-0 h-screen w-24 bg-hb-darker/95 backdrop-blur-sm flex flex-col items-center py-6 z-50 border-r border-hb-gray/50">
+    <div className="hidden md:flex fixed top-0 left-0 h-screen w-24 bg-hb-darker/95 backdrop-blur-sm flex-col items-center py-6 z-50 border-r border-hb-gray/50">
       <div className="flex flex-col items-center justify-between h-full w-full">
         <div className="flex flex-col items-center w-full">
           {/* Logo */}
           <div className="mb-8 flex justify-center w-full">
-            <Logo size="lg" className="rounded-full overflow-hidden border-2 border-hb-gray-light w-12 h-12" />
+            <Link to="/">
+              <Logo size="lg" className="rounded-full overflow-hidden border-2 border-hb-gray-light w-12 h-12" />
+            </Link>
           </div>
           {/* Navigation */}
           <nav className="flex flex-col items-center space-y-6 w-full px-1">
@@ -109,20 +122,18 @@ function Sidebar() {
                 <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
               </Link>
             ))}
-             <Link
+            <Link
               to="/cart"
-              className={`flex flex-col items-center group transition-all duration-200 w-full ${
-                location.pathname === '/cart'
+              className={`flex flex-col items-center group transition-all duration-200 w-full ${location.pathname === '/cart'
                   ? 'text-hb-blue hover:text-hb-blue-light'
                   : 'text-hb-light/60 hover:text-hb-light hover:scale-105'
                 }`}
             >
-              <div className={`p-1.5 rounded-lg transition-all duration-200 relative ${
-                location.pathname === '/cart'
+              <div className={`p-1.5 rounded-lg transition-all duration-200 relative ${location.pathname === '/cart'
                   ? 'bg-hb-gray-light/50'
                   : 'group-hover:bg-hb-gray/30'
                 }`}>
-                <ShoppingBagIcon cartCount={cartItems.length} />
+                <CartIcon />
               </div>
               <span className="text-[10px] mt-1 text-center leading-tight">Cart</span>
             </Link>
@@ -144,6 +155,54 @@ function Sidebar() {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function MobileHeader() {
+  return (
+    <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-hb-darker/95 backdrop-blur-sm flex items-center justify-between px-4 z-50 border-b border-hb-gray/50">
+      <Link to="/">
+        <Logo size="sm" className="w-10 h-10" />
+      </Link>
+      <Link to="/cart" className="relative">
+        <CartIcon />
+      </Link>
+    </div>
+  );
+}
+
+function BottomNavBar() {
+  const location = useLocation();
+  const navItems = [
+    { path: "/", label: "Home", icon: <HomeIcon /> },
+    { path: "/videos", label: "Videos", icon: <FilmIcon /> },
+    { path: "/merch", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
+    { path: "/about", label: "About", icon: <InfoIcon /> },
+  ];
+
+  return (
+    <div className="md:hidden fixed bottom-0 left-0 right-0 h-20 bg-hb-darker/95 backdrop-blur-sm flex justify-around items-center z-50 border-t border-hb-gray/50">
+      {navItems.map((item) => (
+        <Link
+          key={item.path}
+          to={item.path}
+          className={`flex flex-col items-center group transition-all duration-200 w-full h-full justify-center ${
+            location.pathname === item.path
+              ? 'text-hb-blue'
+              : 'text-hb-light/60 hover:text-hb-light'
+            }`}
+        >
+          <div className={`p-1.5 rounded-lg transition-all duration-200 ${
+            location.pathname === item.path
+              ? 'bg-hb-gray-light/20'
+              : ''
+            }`}>
+            {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
+          </div>
+          <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
+        </Link>
+      ))}
     </div>
   );
 }
@@ -434,7 +493,8 @@ function AppContent() {
   return (
     <div className="min-h-screen flex w-full bg-hb-dark text-hb-light">
       <Sidebar />
-      <main className="flex-1 h-[100dvh] overflow-y-auto overflow-x-hidden bg-hb-dark pl-24">
+      <MobileHeader />
+      <main className="flex-1 h-[100dvh] overflow-y-auto overflow-x-hidden bg-hb-dark md:pl-24 pt-16 md:pt-0 pb-20 md:pb-0">
         <div className="w-full max-w-[1600px] mx-auto px-4 py-4">
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
@@ -482,6 +542,7 @@ function AppContent() {
           </footer>
         </div>
       </main>
+      <BottomNavBar />
     </div>
   );
 }
