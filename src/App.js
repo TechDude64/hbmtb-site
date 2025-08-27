@@ -3,10 +3,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import YouTubeVideos from './components/YouTubeVideos';
-import { CartProvider, useCart } from './components/CartContext';
-import CartPage from './components/CartPage';
-import ProductPage from './components/ProductPage';
-
 import { merchItems } from './components/merchData';
 
 // Simple SVG Icons
@@ -29,26 +25,6 @@ const FilmIcon = () => (
     <line x1="17" y1="7" x2="22" y2="7"></line>
   </svg>
 );
-
-
-const CartIcon = () => {
-  const { cartItems } = useCart();
-  const cartCount = cartItems.length;
-  return (
-    <div className="relative">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <path d="M16 10a4 4 0 0 1-8 0"></path>
-      </svg>
-      {cartCount > 0 && (
-        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-hb-blue text-xs font-bold text-white">
-          {cartCount}
-        </span>
-      )}
-    </div>
-  );
-};
 
 const InfoIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -77,7 +53,7 @@ function Sidebar() {
   const navItems = [
     { path: "/", label: "Home", icon: <HomeIcon /> },
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
-    { path: "https://hbmtb.prinitfy.me", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
+    { path: "https://merch.hbmtb.store", label: "Merch", icon: <ShoppingBagIcon />, external: true, newTab: true },
     { path: "/about", label: "About", icon: <InfoIcon /> },
   ];
 
@@ -102,26 +78,39 @@ function Sidebar() {
           {/* Navigation */}
           <nav className="flex flex-col items-center space-y-6 w-full px-1">
             {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex flex-col items-center group transition-all duration-200 w-full ${
-                  // eslint-disable-next-line no-restricted-globals
-                  location.pathname === item.path
-                    ? 'text-hb-blue hover:text-hb-blue-light'
-                    : 'text-hb-light/60 hover:text-hb-light hover:scale-105'
-                  }`}
-              >
-                <div className={`p-1.5 rounded-lg transition-all duration-200 ${
-                  // eslint-disable-next-line no-restricted-globals
-                  location.pathname === item.path
-                    ? 'bg-hb-gray-light/50'
-                    : 'group-hover:bg-hb-gray/30'
-                  }`}>
-                  {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
-                </div>
-                <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
-              </Link>
+              item.external ? (
+                <a
+                  key={item.path}
+                  href={item.path}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center group transition-all duration-200 w-full text-hb-light/60 hover:text-hb-light hover:scale-105"
+                >
+                  <div className="p-1.5 rounded-lg transition-all duration-200 group-hover:bg-hb-gray/30">
+                    {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
+                  </div>
+                  <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
+                </a>
+              ) : (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex flex-col items-center group transition-all duration-200 w-full ${
+                    location.pathname === item.path
+                      ? 'text-hb-blue hover:text-hb-blue-light'
+                      : 'text-hb-light/60 hover:text-hb-light hover:scale-105'
+                    }`}
+                >
+                  <div className={`p-1.5 rounded-lg transition-all duration-200 ${
+                    location.pathname === item.path
+                      ? 'bg-hb-gray-light/50'
+                      : 'group-hover:bg-hb-gray/30'
+                    }`}>
+                    {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
+                  </div>
+                  <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
+                </Link>
+              )
             ))}
             {/* <Link
               to="/cart"
@@ -178,37 +167,50 @@ function BottomNavBar() {
   const navItems = [
     { path: "/", label: "Home", icon: <HomeIcon /> },
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
-    { path: "https://hbmtb.prinitfy.me", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
+    { path: "https://merch.hbmtb.store", label: "Merch", icon: <ShoppingBagIcon />, external: true, newTab: true },
     { path: "/about", label: "About", icon: <InfoIcon /> },
   ];
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 h-20 bg-hb-darker/95 backdrop-blur-sm flex justify-around items-center z-50 border-t border-hb-gray/50">
       {navItems.map((item) => (
-        <Link
-          key={item.path}
-          to={item.path}
-          className={`flex flex-col items-center group transition-all duration-200 w-full h-full justify-center ${location.pathname === item.path
-            ? 'text-hb-blue'
-            : 'text-hb-light/60 hover:text-hb-light'
-            }`}
-        >
-          <div className={`p-1.5 rounded-lg transition-all duration-200 ${location.pathname === item.path
-            ? 'bg-hb-gray-light/20'
-            : ''
-            }`}>
-            {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
-          </div>
-          <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
-        </Link>
+        item.external ? (
+          <a
+            key={item.path}
+            href={item.path}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center group transition-all duration-200 w-full h-full justify-center text-hb-light/60 hover:text-hb-light"
+          >
+            <div className="p-1.5 rounded-lg transition-all duration-200">
+              {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
+            </div>
+            <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
+          </a>
+        ) : (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={`flex flex-col items-center group transition-all duration-200 w-full h-full justify-center ${location.pathname === item.path
+              ? 'text-hb-blue'
+              : 'text-hb-light/60 hover:text-hb-light'
+              }`}
+          >
+            <div className={`p-1.5 rounded-lg transition-all duration-200 ${location.pathname === item.path
+              ? 'bg-hb-gray-light/20'
+              : ''
+              }`}>
+              {item.icon && React.cloneElement(item.icon, { className: 'w-6 h-6' })}
+            </div>
+            <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
+          </Link>
+        )
       ))}
     </div>
   );
 }
 
 function Home() {
-  const scrollingMerch = [...merchItems, ...merchItems]; // Duplicate for seamless scroll
-
   return (
     <motion.div
       className="w-full max-w-full px-4 py-8"
@@ -244,15 +246,20 @@ function Home() {
         </div>
       </section>
 
-      {/* Scrolling Merch Section */}
+      {/* Scrolling Merch Banner */}
       <section className="mb-16">
         <h2 className="text-2xl font-bold mb-6 flex items-center font-bebas">
           <span className="w-2 h-6 bg-hb-blue rounded-full mr-3"></span>
           Featured Merch
         </h2>
-        <Link to="https://hbmtb.prinitfy.me" className="relative h-48 block overflow-hidden bg-gradient-to-r from-hb-gray/20 to-hb-gray/30 rounded-2xl border border-hb-gray/50 shadow-lg group transition-all duration-300 hover:border-hb-blue hover:shadow-xl">
+        <a 
+          href="https://merch.hbmtb.store" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="relative h-48 block overflow-hidden bg-gradient-to-r from-hb-gray/20 to-hb-gray/30 rounded-2xl border border-hb-gray/50 shadow-lg group transition-all duration-300 hover:border-hb-blue hover:shadow-xl"
+        >
           <div className="absolute top-0 left-0 flex items-center h-full animate-scroll">
-            {scrollingMerch.map((item, i) => (
+            {[...merchItems, ...merchItems].map((item, i) => (
               <div key={i} className="flex-shrink-0 w-48 h-full mx-4 p-2">
                 <div className="bg-hb-darker/50 rounded-xl h-full flex flex-col items-center justify-center border border-hb-gray/30 shadow-md">
                   <div className="aspect-square w-full h-full p-4">
@@ -262,7 +269,13 @@ function Home() {
               </div>
             ))}
           </div>
-        </Link>
+          <div className="absolute inset-0 bg-gradient-to-r from-hb-dark/80 via-transparent to-hb-dark/80 pointer-events-none" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-hb-blue text-white px-6 py-3 rounded-full text-lg font-bold shadow-lg transform transition-all duration-300 group-hover:scale-105">
+              Shop Now
+            </div>
+          </div>
+        </a>
       </section>
 
       {/* Video Grid */}
@@ -302,45 +315,6 @@ function Videos() {
   );
 }
 
-function Merch() {
-  return (
-    <div className="w-full py-8">
-      <motion.div
-        className="w-full max-w-[1600px] mx-auto px-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold mb-2 text-hb-light">HBMTB Merch</h1>
-          <p className="text-hb-light/70">Gear up with official HBMTB merchandise</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {merchItems.map((product) => (
-            <Link to={`/merch/${product.id}`} key={product.id} className="bg-hb-gray/30 rounded-xl overflow-hidden border border-hb-gray/30 hover:border-hb-blue/50 transition-all duration-300 flex flex-col group relative">
-              <div className="aspect-square bg-hb-gray overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-semibold text-hb-light mb-2">{product.name}</h3>
-                <p className="text-hb-blue text-lg font-medium mt-auto">${product.price.toFixed(2)}</p>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="bg-hb-blue text-white px-4 py-2 rounded-lg">View Details</div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </motion.div>
-    </div>
-  );
-}
 
 function About() {
   const [stats, setStats] = useState([
@@ -581,11 +555,8 @@ function AppContent() {
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<Home />} />
-              <Route path="/merch" element={<Merch />} />
-              <Route path="/merch/:productId" element={<ProductPage />} />
               <Route path="/videos" element={<Videos />} />
               <Route path="/about" element={<About />} />
-              <Route path="/cart" element={<CartPage />} />
             </Routes>
           </AnimatePresence>
 
@@ -632,9 +603,7 @@ function AppContent() {
 export default function App() {
   return (
     <Router>
-      <CartProvider>
-        <AppContent />
-      </CartProvider>
+      <AppContent />
     </Router>
   );
 }
