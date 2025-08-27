@@ -571,7 +571,6 @@ function AppContent() {
                     </div>
                     <span className="text-xl font-bold text-hb-light">HBMTB</span>
                   </div>
-                  <p className="text-sm text-hb-light/50 mt-2">© {new Date().getFullYear()} HBMTB. All rights reserved.</p>
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-4 md:gap-6">
