@@ -6,6 +6,7 @@
     "@fontsource/bebas-neue": "^5.2.6",
     "@fontsource/inter": "^5.2.6",
     "@heroicons/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.56.0",
     "@tailwindcss/cli": "^4.1.12",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.7.0",

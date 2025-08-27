@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import YouTubeVideos from './components/YouTubeVideos';
 import { merchItems } from './components/merchData';
+import ChatPage from './components/ChatPage';
 
 // Simple SVG Icons
 const HomeIcon = () => (
@@ -40,6 +41,12 @@ const YoutubeIcon = () => (
   </svg>
 );
 
+const ChatIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+);
+
 const ShoppingBagIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -55,6 +62,7 @@ function Sidebar() {
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
     { path: "https://merch.hbmtb.store", label: "Merch", icon: <ShoppingBagIcon />, external: true, newTab: true },
     { path: "/about", label: "About", icon: <InfoIcon /> },
+    { path: "/chat", label: "Chat", icon: <ChatIcon /> },
   ];
 
   const socialLinks = [
@@ -167,6 +175,7 @@ function BottomNavBar() {
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
     { path: "https://merch.hbmtb.store", label: "Merch", icon: <ShoppingBagIcon />, external: true, newTab: true },
     { path: "/about", label: "About", icon: <InfoIcon /> },
+    { path: "/chat", label: "Chat", icon: <ChatIcon /> },
   ];
 
   return (
@@ -555,6 +564,7 @@ function AppContent() {
               <Route path="/" element={<Home />} />
               <Route path="/videos" element={<Videos />} />
               <Route path="/about" element={<About />} />
+              <Route path="/chat" element={<ChatPage />} />
             </Routes>
           </AnimatePresence>
 
