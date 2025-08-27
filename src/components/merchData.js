@@ -1,49 +1,49 @@
 export const merchItems = [
     {
         id: 1,
-        name: 'HBMTB Cap',
-        price: 24.99,
-        image: '/images/merch/merch_cap-01.png',
+        name: 'HBMTB Creatine',
+        price: 34.65,
+        image: 'https://images-api.printify.com/mockup/68ae42aa2a12ec10800443de/109722/104965/creatine-monohydrate-supplement-300g-1058oz.jpg?camera_label=front&revision=1756250837779&s=2048',
         colors: ['#000000', '#1A1A1A'],
         sizes: ['One Size']
     },
     {
         id: 2,
         name: 'HBMTB Drink Bottle',
-        price: 19.99,
-        image: '/images/merch/merch_drinkbottle.png',
+        price: 38.88,
+        image: 'https://images-api.printify.com/mockup/68ae49492a12ec1080044548/77044/100790/stainless-steel-water-bottle-standard-lid.jpg?camera_label=left&revision=1756252788383&s=1200',
         colors: ['#FFFFFF'],
         sizes: ['One Size']
     },
     {
         id: 3,
-        name: 'HBMTB Jumper',
-        price: 49.99,
-        image: '/images/merch/merch_jumper.png',
+        name: 'HBMTB Phone Case',
+        price: 22.58,
+        image: 'https://images-api.printify.com/mockup/68ae43fd1bc0934cc40d17f7/93902/70879/slim-phone-cases.jpg?camera_label=front-and-side&revision=1756251462453&s=2048',
         colors: ['#000000', '#4B5563'],
         sizes: ['S', 'M', 'L', 'XL']
     },
     {
         id: 4,
         name: 'HBMTB Mug',
-        price: 14.99,
-        image: '/images/merch/merch_mug.png',
+        price: 11.18,
+        image: 'https://images-api.printify.com/mockup/68ae4b2057accd1d120f0fc4/65217/6406/black-mug-11oz-15oz.jpg?camera_label=left&revision=1756252991885&s=1200',
         colors: ['#FFFFFF'],
         sizes: ['One Size']
     },
     {
         id: 5,
-        name: 'HBMTB Pen',
-        price: 4.99,
-        image: '/images/merch/merch_pen.png',
+        name: 'HBMTB Boxers',
+        price: 29.22,
+        image: 'https://images-api.printify.com/mockup/68ae512c689ce577fb0b6c9a/103945/101424/mens-boxers-aop.jpg?camera_label=person-back&revision=1756254707822&s=2048',
         colors: ['#000000'],
         sizes: ['One Size']
     },
     {
         id: 6,
-        name: 'HBMTB Phone Case',
-        price: 22.99,
-        image: '/images/merch/merch_phonecase.png',
+        name: 'HBMTB Golf Balls',
+        price: 35.21,
+        image: 'https://images-api.printify.com/mockup/68ae4aa31bc0934cc40d1989/91860/60899/golf-balls-6pcs.jpg?camera_label=front&revision=1756252884121&s=1200',
         colors: ['#000000'],
         sizes: ['iPhone 14', 'Galaxy S23']
     },

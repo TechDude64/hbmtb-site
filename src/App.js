@@ -30,6 +30,7 @@ const FilmIcon = () => (
   </svg>
 );
 
+
 const CartIcon = () => {
   const { cartItems } = useCart();
   const cartCount = cartItems.length;
@@ -76,7 +77,7 @@ function Sidebar() {
   const navItems = [
     { path: "/", label: "Home", icon: <HomeIcon /> },
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
-    { path: "/merch", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
+    { path: "https://hbmtb.prinitfy.me", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
     { path: "/about", label: "About", icon: <InfoIcon /> },
   ];
 
@@ -122,7 +123,7 @@ function Sidebar() {
                 <span className="text-[10px] mt-1 text-center leading-tight">{item.label}</span>
               </Link>
             ))}
-            <Link
+            {/* <Link
               to="/cart"
               className={`flex flex-col items-center group transition-all duration-200 w-full ${location.pathname === '/cart'
                 ? 'text-hb-blue hover:text-hb-blue-light'
@@ -136,7 +137,7 @@ function Sidebar() {
                 <CartIcon />
               </div>
               <span className="text-[10px] mt-1 text-center leading-tight">Cart</span>
-            </Link>
+            </Link> */}
           </nav>
         </div>
         {/* Social Links */}
@@ -165,9 +166,9 @@ function MobileHeader() {
       <Link to="/">
         <Logo size="sm" className="w-10 h-10" />
       </Link>
-      <Link to="/cart" className="relative">
+      {/* <Link to="/cart" className="relative">
         <CartIcon />
-      </Link>
+      </Link> */}
     </div>
   );
 }
@@ -177,7 +178,7 @@ function BottomNavBar() {
   const navItems = [
     { path: "/", label: "Home", icon: <HomeIcon /> },
     { path: "/videos", label: "Videos", icon: <FilmIcon /> },
-    { path: "/merch", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
+    { path: "https://hbmtb.prinitfy.me", label: "Merch", icon: <ShoppingBagIcon cartCount={0} /> },
     { path: "/about", label: "About", icon: <InfoIcon /> },
   ];
 
@@ -249,8 +250,8 @@ function Home() {
           <span className="w-2 h-6 bg-hb-blue rounded-full mr-3"></span>
           Featured Merch
         </h2>
-        <Link to="/merch" className="relative h-48 block overflow-hidden bg-gradient-to-r from-hb-gray/20 to-hb-gray/30 rounded-2xl border border-hb-gray/50 shadow-lg group transition-all duration-300 hover:border-hb-blue hover:shadow-xl">
-          <div className="absolute top-0 left-0 flex items-center h-full animate-scroll group-hover:pause">
+        <Link to="https://hbmtb.prinitfy.me" className="relative h-48 block overflow-hidden bg-gradient-to-r from-hb-gray/20 to-hb-gray/30 rounded-2xl border border-hb-gray/50 shadow-lg group transition-all duration-300 hover:border-hb-blue hover:shadow-xl">
+          <div className="absolute top-0 left-0 flex items-center h-full animate-scroll">
             {scrollingMerch.map((item, i) => (
               <div key={i} className="flex-shrink-0 w-48 h-full mx-4 p-2">
                 <div className="bg-hb-darker/50 rounded-xl h-full flex flex-col items-center justify-center border border-hb-gray/30 shadow-md">
@@ -324,7 +325,7 @@ function Merch() {
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-xl font-semibold text-hb-light mb-2">{product.name}</h3>
