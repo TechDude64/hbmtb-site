@@ -95,14 +95,12 @@ function Sidebar() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex flex-col items-center group transition-all duration-200 w-full ${
-                    location.pathname === item.path
+                  className={`flex flex-col items-center group transition-all duration-200 w-full ${location.pathname === item.path
                       ? 'text-hb-blue hover:text-hb-blue-light'
                       : 'text-hb-light/60 hover:text-hb-light hover:scale-105'
                     }`}
                 >
-                  <div className={`p-1.5 rounded-lg transition-all duration-200 ${
-                    location.pathname === item.path
+                  <div className={`p-1.5 rounded-lg transition-all duration-200 ${location.pathname === item.path
                       ? 'bg-hb-gray-light/50'
                       : 'group-hover:bg-hb-gray/30'
                     }`}>
@@ -252,10 +250,10 @@ function Home() {
           <span className="w-2 h-6 bg-hb-blue rounded-full mr-3"></span>
           Featured Merch
         </h2>
-        <a 
-          href="https://merch.hbmtb.store" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href="https://merch.hbmtb.store"
+          target="_blank"
+          rel="noopener noreferrer"
           className="relative h-48 block overflow-hidden bg-gradient-to-r from-hb-gray/20 to-hb-gray/30 rounded-2xl border border-hb-gray/50 shadow-lg group transition-all duration-300 hover:border-hb-blue hover:shadow-xl"
         >
           <div className="absolute top-0 left-0 flex items-center h-full animate-scroll">
@@ -571,7 +569,6 @@ function AppContent() {
                     </div>
                     <span className="text-xl font-bold text-hb-light">HBMTB</span>
                   </div>
-                  <p className="text-sm text-hb-light/50 mt-2">© {new Date().getFullYear()} HBMTB. All rights reserved.</p>
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-4 md:gap-6">

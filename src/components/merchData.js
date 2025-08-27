@@ -11,7 +11,7 @@ export const merchItems = [
         id: 2,
         name: 'HBMTB Drink Bottle',
         price: 38.88,
-        image: 'https://images-api.printify.com/mockup/68ae49492a12ec1080044548/77044/100790/stainless-steel-water-bottle-standard-lid.jpg?camera_label=left&revision=1756252788383&s=1200',
+        image: 'https://images-api.printify.com/mockup/68ae742d0ea94b0b180a212f/79350/39576/premium-travel-suitcase.jpg?camera_label=front&revision=1756264591475&s=2048',
         colors: ['#FFFFFF'],
         sizes: ['One Size']
     },
@@ -35,7 +35,7 @@ export const merchItems = [
         id: 5,
         name: 'HBMTB Boxers',
         price: 29.22,
-        image: 'https://images-api.printify.com/mockup/68ae512c689ce577fb0b6c9a/103945/101424/mens-boxers-aop.jpg?camera_label=person-back&revision=1756254707822&s=2048',
+        image: 'https://images-api.printify.com/mockup/68ae4b2feb5eab1df509c925/102977/100712/bucket-hat.jpg?camera_label=front&revision=1756264722112&s=2048',
         colors: ['#000000'],
         sizes: ['One Size']
     },
@@ -51,7 +51,7 @@ export const merchItems = [
         id: 7,
         name: 'HBMTB Scarf',
         price: 27.99,
-        image: '/images/merch/merch_scarf.png',
+        image: 'https://images-api.printify.com/mockup/68ae83b60d40fb27380f3a15/77835/36537/desginer-puffer.jpg?camera_label=front&revision=1756267943224&s=2048',
         colors: ['#4B5563'],
         sizes: ['One Size']
     },
@@ -59,7 +59,7 @@ export const merchItems = [
         id: 8,
         name: 'HBMTB Sunglasses',
         price: 34.99,
-        image: '/images/merch/merch_sunglasses-01.png',
+        image: 'https://images-api.printify.com/mockup/68ae49492a12ec1080044548/77044/100790/premium-insulating-stainless-steel-hydration-bottle.jpg?camera_label=left&revision=1756264645077&s=2048',
         colors: ['#000000'],
         sizes: ['One Size']
     },
@@ -67,7 +67,7 @@ export const merchItems = [
         id: 9,
         name: 'HBMTB T-Shirt',
         price: 29.99,
-        image: '/images/merch/merch_tshirt.png',
+        image: 'https://images-api.printify.com/mockup/68ae7708a2d0e504f809b474/77280/24788/designer-leather-bag.jpg?camera_label=front&revision=1756264711068&s=2048',
         colors: ['#000000', '#1E88E5', '#FFFFFF'],
         sizes: ['S', 'M', 'L', 'XL']
     },
@@ -75,7 +75,7 @@ export const merchItems = [
         id: 10,
         name: 'HBMTB Wallet',
         price: 39.99,
-        image: '/images/merch/merch_wallet-01.png',
+        image: 'https://images-api.printify.com/mockup/68ae80531bc0934cc40d25e7/68869/109444/champion-hoodie.jpg?camera_label=front&revision=1756267274138&s=2048',
         colors: ['#8D6E63'],
         sizes: ['One Size']
     }
